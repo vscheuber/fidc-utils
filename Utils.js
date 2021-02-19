@@ -69,7 +69,15 @@ console.log("---\n");
   * hashCode("Hello World") produces '3432422020'
   * hashCode("What a wonderful world") produces '4100313561'
   */
-function hashCode(r){var e,h=0;for(e=0;e<r.length;e++)h=(h<<5)-h+r.charCodeAt(e),h|=0;return h>>>0}
+function hashCode(str) {
+  var hash = 0, i, chr;
+  for (i = 0; i < str.length; i++) {
+    chr   = str.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return (hash >>> 0);
+}
 
  /*
   * Generate a token in the desired format. All 'x' characters will be replaced with a random number 0-9.
