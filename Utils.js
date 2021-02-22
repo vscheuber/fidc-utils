@@ -257,11 +257,26 @@ function formatOnfidoZipCode(str) {
   }
 }
 
-function setObjectAttribute(name, value) {
+/*
+ * Properly set attributes in shared state for use with the Create/Patch Object nodes.
+ */
+function setSharedObjectAttribute(name, value) {
     if (sharedState.get("objectAttributes")) {
         sharedState.get("objectAttributes").put(name, value);
     }
     else {
         sharedState.put("objectAttributes", JSON.parse("{\""+name+"\":"+value+"}"));
+    }
+}
+
+/*
+ * Properly set attributes in transient state for use with the Create/Patch Object nodes.
+ */
+function setTransientObjectAttribute(name, value) {
+    if (transientState.get("objectAttributes")) {
+        transientState.get("objectAttributes").put(name, value);
+    }
+    else {
+        transientState.put("objectAttributes", JSON.parse("{\""+name+"\":"+value+"}"));
     }
 }
