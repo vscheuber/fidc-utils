@@ -173,6 +173,10 @@ function pad(num, size) {
 
 /*
  * Parse a URL into its components and make them easily accessible by name
+ *
+ * Use in a Scripte Decision Node Script as follows:
+ * var referer = parseUrl(requestHeaders.get("referer").get(0));
+ * var origin = referer.origin;
  * 
  * e.g.: https://openam-volker-dev.forgeblocks.com/am/XUI/?realm=/bravo&authIndexType=service&authIndexValue=InitiateOwnerClaim#/
  * {
