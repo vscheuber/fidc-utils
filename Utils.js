@@ -284,3 +284,19 @@ function setTransientObjectAttribute(name, value) {
         transientState.put("objectAttributes", JSON.parse("{\""+name+"\":"+value+"}"));
     }
 }
+
+/*
+ * Returns the value of the requested header
+ */
+function getHeader(headerName) {
+    return requestHeaders.get(headerName).get(0);
+}
+
+/*
+ * !!! ASSUMES ID CLOUD !!!
+ *
+ * Returns the client's IP address
+ */
+function getClientIPAddress() {
+    return getHeader("x-forwarded-for").split(',')[0];
+}
