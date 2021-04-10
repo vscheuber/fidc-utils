@@ -262,27 +262,71 @@ function formatOnfidoZipCode(str) {
 }
 
 /*
- * Properly set attributes in shared state for use with the Create/Patch Object nodes.
+ * Store attributes in shared state for use with the Create/Patch Object nodes.
  */
 function setSharedObjectAttribute(name, value) {
-    if (sharedState.get("objectAttributes")) {
-        sharedState.get("objectAttributes").put(name, value);
+  	 var storage = sharedState.get("objectAttributes");
+    if (storage && value) {
+      	if (storage.put) {
+	          storage.put(name, value);
+        }
+      	else {
+          	storage[name] = value;
+        }
     }
-    else {
-        sharedState.put("objectAttributes", JSON.parse("{\""+name+"\":"+value+"}"));
+    else if (value) {
+        sharedState.put("objectAttributes", JSON.parse("{\""+name+"\":\""+value+"\"}"));
     }
 }
 
 /*
- * Properly set attributes in transient state for use with the Create/Patch Object nodes.
+ * Read attributes in shared state for use with the Create/Patch Object nodes.
+ */
+function getSharedObjectAttribute(name) {
+  	 var storage = sharedState.get("objectAttributes");
+    if (storage) {
+      	if (storage.get) {
+	          return sharedState.get("objectAttributes").get(name);
+        }
+      	else {
+          	return storage.name;
+        }
+    }
+  	 return null;
+}
+
+/*
+ * Store attributes in transient state for use with the Create/Patch Object nodes.
  */
 function setTransientObjectAttribute(name, value) {
-    if (transientState.get("objectAttributes")) {
-        transientState.get("objectAttributes").put(name, value);
+    var transientStorage = transientState.get("objectAttributes");
+    if (transientStorage && value) {
+      	if (transientStorage.put) {
+	          transientStorage.put(name, value);
+        }
+      	else {
+          	transientStorage[name] = value;
+        }
     }
-    else {
-        transientState.put("objectAttributes", JSON.parse("{\""+name+"\":"+value+"}"));
+    else if (value) {
+        transientState.put("objectAttributes", JSON.parse("{\""+name+"\":\""+value+"\"}"));
     }
+}
+
+/*
+ * Read attributes in transient state for use with the Create/Patch Object nodes.
+ */
+function getTransientObjectAttribute(name) {
+  	 var transientStorage = transientState.get("objectAttributes");
+    if (transientStorage) {
+      	if (transientStorage.get) {
+	          return transientState.get("objectAttributes").get(name);
+        }
+      	else {
+          	return transientStorage.name;
+        }
+    }
+  	 return null;
 }
 
 /*
