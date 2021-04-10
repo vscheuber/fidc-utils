@@ -283,16 +283,16 @@ function setSharedObjectAttribute(name, value) {
  * Read attributes in shared state for use with the Create/Patch Object nodes.
  */
 function getSharedObjectAttribute(name) {
-  	 var storage = sharedState.get("objectAttributes");
+    var storage = sharedState.get("objectAttributes");
     if (storage) {
       	if (storage.get) {
-	          return sharedState.get("objectAttributes").get(name);
+            return sharedState.get("objectAttributes").get(name);
         }
       	else {
-          	return storage.name;
+            return storage.name;
         }
     }
-  	 return null;
+    return null;
 }
 
 /*
@@ -302,14 +302,14 @@ function setTransientObjectAttribute(name, value) {
     var transientStorage = transientState.get("objectAttributes");
     if (transientStorage && value) {
       	if (transientStorage.put) {
-	          transientStorage.put(name, value);
+            transientStorage.put(name, value);
         }
       	else {
-          	transientStorage[name] = value;
+            transientStorage[name] = value;
         }
     }
     else if (value) {
-        transientState.put("objectAttributes", JSON.parse("{\""+name+"\":\""+value+"\"}"));
+    transientState.put("objectAttributes", JSON.parse("{\""+name+"\":\""+value+"\"}"));
     }
 }
 
@@ -317,16 +317,16 @@ function setTransientObjectAttribute(name, value) {
  * Read attributes in transient state for use with the Create/Patch Object nodes.
  */
 function getTransientObjectAttribute(name) {
-  	 var transientStorage = transientState.get("objectAttributes");
+    var transientStorage = transientState.get("objectAttributes");
     if (transientStorage) {
       	if (transientStorage.get) {
-	          return transientState.get("objectAttributes").get(name);
+            return transientState.get("objectAttributes").get(name);
         }
       	else {
-          	return transientStorage.name;
+            return transientStorage.name;
         }
     }
-  	 return null;
+    return null;
 }
 
 /*
