@@ -18,6 +18,19 @@
  */
 var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(input){var output="";var chr1,chr2,chr3,enc1,enc2,enc3,enc4;var i=0;input=Base64._utf8_encode(input);while(i<input.length){chr1=input.charCodeAt(i++);chr2=input.charCodeAt(i++);chr3=input.charCodeAt(i++);enc1=chr1>>2;enc2=(chr1&3)<<4|chr2>>4;enc3=(chr2&15)<<2|chr3>>6;enc4=chr3&63;if(isNaN(chr2)){enc3=enc4=64}else if(isNaN(chr3)){enc4=64}output=output+this._keyStr.charAt(enc1)+this._keyStr.charAt(enc2)+this._keyStr.charAt(enc3)+this._keyStr.charAt(enc4)}return output},decode:function(input){var output="";var chr1,chr2,chr3;var enc1,enc2,enc3,enc4;var i=0;input=input.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(i<input.length){enc1=this._keyStr.indexOf(input.charAt(i++));enc2=this._keyStr.indexOf(input.charAt(i++));enc3=this._keyStr.indexOf(input.charAt(i++));enc4=this._keyStr.indexOf(input.charAt(i++));chr1=enc1<<2|enc2>>4;chr2=(enc2&15)<<4|enc3>>2;chr3=(enc3&3)<<6|enc4;output=output+String.fromCharCode(chr1);if(enc3!=64){output=output+String.fromCharCode(chr2)}if(enc4!=64){output=output+String.fromCharCode(chr3)}}output=Base64._utf8_decode(output);return output},_utf8_encode:function(string){string=string.replace(/\r\n/g,"\n");var utftext="";for(var n=0;n<string.length;n++){var c=string.charCodeAt(n);if(c<128){utftext+=String.fromCharCode(c)}else if(c>127&&c<2048){utftext+=String.fromCharCode(c>>6|192);utftext+=String.fromCharCode(c&63|128)}else{utftext+=String.fromCharCode(c>>12|224);utftext+=String.fromCharCode(c>>6&63|128);utftext+=String.fromCharCode(c&63|128)}}return utftext},_utf8_decode:function(utftext){var string="";var i=0;var c=c1=c2=0;while(i<utftext.length){c=utftext.charCodeAt(i);if(c<128){string+=String.fromCharCode(c);i++}else if(c>191&&c<224){c2=utftext.charCodeAt(i+1);string+=String.fromCharCode((c&31)<<6|c2&63);i+=2}else{c2=utftext.charCodeAt(i+1);c3=utftext.charCodeAt(i+2);string+=String.fromCharCode((c&15)<<12|(c2&63)<<6|c3&63);i+=3}}return string}};
 
+/*
+ * Base32(Hex) encode / decode
+ *  https://technote.fyi/code/javascript/base32-encoding-and-decoding-in-javascript/
+ * 
+ * Example:
+ * Base32.encode('Hello Ron!')
+ * Base32.decode('JBSWY3DPEBJG63RB')
+ * Base32Hex.encode('Hello Ron!')
+ * Base32Hex.decode('91IMOR3F4196URH1');
+ */
+var Base32={a:"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",pad:"=",encode:function(r){var a,t,h=this.a,e=this.pad,c=r.length,o="",A=0,d=0;for(i=0;i<c;i+=5)a=248&(t=r.charCodeAt(i)),o+=h.charAt(a>>3),A=7&t,d=2,i+1<c&&(a=192&(t=r.charCodeAt(i+1)),o+=h.charAt((A<<2)+(a>>6)),o+=h.charAt((62&t)>>1),A=1&t,d=4),i+2<c&&(a=240&(t=r.charCodeAt(i+2)),o+=h.charAt((A<<4)+(a>>4)),A=15&t,d=1),i+3<c&&(a=128&(t=r.charCodeAt(i+3)),o+=h.charAt((A<<1)+(a>>7)),o+=h.charAt((124&t)>>2),A=3&t,d=3),i+4<c&&(a=224&(t=r.charCodeAt(i+4)),o+=h.charAt((A<<3)+(a>>5)),o+=h.charAt(31&t),A=0,d=0);0!=d&&(o+=h.charAt(A<<d));var n=8-o.length%8;return 8==n?o:1==n?o+e:3==n?o+e+e+e:4==n?o+e+e+e+e:6==n?o+e+e+e+e+e+e:void 0},decode:function(r){var a,t,h,e=r.length,c=this.a+this.pad,o=0,A="";for(r=r.toUpperCase(),i=0;i<e;i+=1)(a=c.indexOf(r.charAt(i)))>=0&&a<32&&(t=t<<5|a,(o+=5)>=8&&(h=t>>o-8&255,A+=String.fromCharCode(h),o-=8));return o>0&&0!==(h=(t<<8-o&255)>>8-o)&&(A+=String.fromCharCode(h)),A}};
+var Base32Hex={a:"0123456789ABCDEFGHIJKLMNOPQRSTUV",pad:"=",encode:Base32.encode,decode:Base32.decode};
+
 console.log("hashCode('Hello World')");
 console.log(hashCode("Hello World"));
 console.log("---\n");
